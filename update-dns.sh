@@ -13,20 +13,6 @@ source "${secrets}"
   echo 'RECORD_IDS are missing!' &&
   exit 1
 
-# Check credentials before proceeding
-response=$(
-  curl \
-    --silent \
-    --output /dev/null \
-    --write-out "%{http_code}" \
-    --header "Authorization: Bearer ${ACCESS_TOKEN}" \
-    "https://api.digitalocean.com/v2/account"
-)
-if [ "$response" != "200" ]; then
-  echo "Invalid credentials. Please check your ACCESS_TOKEN."
-  exit 1
-fi
-
 public_ip=$(curl --silent ipinfo.io/ip)
 
 for ID in "${RECORD_IDS[@]}"; do
